@@ -1,0 +1,5 @@
+= LibMMSeg for python =
+before install:
+download and compile LibMMSeg, then change path string in setup.py
+to install:
+#sudo python setup.py install
