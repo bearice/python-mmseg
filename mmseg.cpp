@@ -74,7 +74,7 @@ static PyObject*
 mmseg_tokenlize(PyObject* self,PyObject* args)
 {
     PyObject *list = PyList_New(0);
-    const char *str;
+    char *str;
     size_t slen;
     if (!PyArg_ParseTuple(args, "s#", &str,&slen))
         return NULL;
@@ -93,9 +93,12 @@ mmseg_tokenlize(PyObject* self,PyObject* args)
             seg->popToken(len);
             continue;
         }
-        PyList_Append(list, Py_BuildValue("(i,i,s#)", tok-str,len,tok,len));
+        PyObject* obj = Py_BuildValue("(i,i,s#)", tok-str,len,tok,len);
+        PyList_Append(list, obj);
+        Py_DECREF(obj);
         seg->popToken(len);
     }
+    g_mgr.clear();
     return list;
 }
 
